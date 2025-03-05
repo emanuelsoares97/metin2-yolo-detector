@@ -1,37 +1,52 @@
-import pytesseract
-import cv2
-import numpy as np
 import mss
-import mss.tools
-from time import sleep
+import numpy as np
+import cv2
+import pytesseract
 
-sleep(1)
+# 📌 COORDENADAS DA JANELA DO JOGO (ajustadas manualmente)
+x1, y1 = 283, 107   # Canto superior esquerdo
+x2, y2 = 1873, 995  # Canto inferior direito
 
-def capturar_tela_jogo():
+def capturar_texto():
     with mss.mss() as sct:
-        # Captura toda a tela
-        tela = sct.grab(sct.monitors[1])  # Monitor principal
+        monitor = {
+            "top": y1,
+            "left": x1,
+            "width": x2 - x1,
+            "height": y2 - y1
+        }
+        screenshot = sct.grab(monitor)
+        img = np.array(screenshot)
 
-        # Converte para um array numpy
-        tela = np.array(tela)
+        # 🔹 Converte para escala de cinza
+        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-        return tela
+        # 🔹 Suavização para reduzir ruídos
+        img_gray = cv2.GaussianBlur(img_gray, (3, 3), 0)
 
-# Captura a tela do jogo
-tela = capturar_tela_jogo()
+        # 🔹 Ajuste de brilho e contraste (mais suave)
+        alpha = 1.1  # 🔽 Reduzimos o contraste para evitar distorção
+        beta = 15    # 🔽 Aumentamos o brilho apenas um pouco
+        img_gray = cv2.convertScaleAbs(img_gray, alpha=alpha, beta=beta)
 
-# Converte para escala de cinza
-tela_gray = cv2.cvtColor(tela, cv2.COLOR_RGB2GRAY)
+        # 🔹 Testar sem threshold primeiro
+        return img_gray
 
-# Aumenta o contraste
-tela_gray = cv2.threshold(tela_gray, 120, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+# 🔹 Captura a imagem processada
+imagem_processada = capturar_texto()
 
-# Testa OCR
-texto = pytesseract.image_to_string(tela_gray)
+# 🔹 Salva para debug (ver como está antes do OCR)
+cv2.imwrite("debug_janela_suave.png", imagem_processada)
 
-
+# 🔹 Configuração do OCR (melhor para texto em linha)
+custom_config = r'--oem 3 --psm 7'  
+texto = pytesseract.image_to_string(imagem_processada, config=custom_config, lang="eng")
 
 print("Texto detectado:", texto)
 
+
+
+
 if "Metin" in texto:
     print("Encontrei")
+

@@ -1,109 +1,89 @@
 import pyautogui
-import pytesseract
-import numpy as np
-import cv2
 import time
-import random
-from util.logger import get_logger
+import cv2
+import numpy as np
+import mss
 
-mainLogger = get_logger("Main Logger")
+# Lista de templates de Metins (adiciona mais imagens se necessário)
+metin_templates = ["metin1.png", "metin2.png"]  # Caminhos das imagens de referência
 
-# Configuração do Tesseract OCR (mude o caminho se necessário)
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-
-def procurar_metins():
-    tela = pyautogui.screenshot()
-    tela = np.array(tela)
-
-    altura, largura, _ = tela.shape
-    
-    # Recortar APENAS a parte superior onde o nome da Metin aparece
-    roi = tela[int(altura * 0.2):int(altura * 0.5), :]  # Ajuste conforme necessário
-
-    # Converter para escala de cinza
-    tela_gray = cv2.cvtColor(roi, cv2.COLOR_RGB2GRAY)
-
-    # Aplicar CLAHE para melhorar o contraste sem perder detalhes
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
-    tela_gray = clahe.apply(tela_gray)
-
-    # Tentar OCR novamente com ajuste de idioma
-    texto_detectado = pytesseract.image_to_data(tela_gray, output_type=pytesseract.Output.DICT)
-
-    OFFSET_X = 20
-    OFFSET_Y = 70  
-
-    for i, palavra in enumerate(texto_detectado["text"]):
-        if "Metin" in palavra:
-            x = texto_detectado["left"][i]  
-            y = texto_detectado["top"][i]   
-            largura = texto_detectado["width"][i]
-            altura = texto_detectado["height"][i]
-
-            # Ajustar posição do clique
-            x_centro = x + largura // 2 + OFFSET_X
-            y_centro = y + altura // 2 + OFFSET_Y
-
-            print(f"Metin detectada! Nova posição ajustada: ({x_centro}, {y_centro})")
-            return (x_centro, y_centro)
-
-    print("Nenhuma Metin encontrada via OCR.")
-    return None
+# Coordenadas da tela do jogo (ajustar conforme necessário)
+GAME_REGION = {"left": 283, "top": 107, "width": 1590, "height": 888}  # Ajustado para tua resolução
 
 
+def capturar_tela():
+    """ Captura a tela do jogo e retorna uma imagem do OpenCV """
+    with mss.mss() as sct:
+        screenshot = sct.grab(GAME_REGION)
+        img = np.array(screenshot)
+        img = cv2.cvtColor(img, cv2.COLOR_BGRA2GRAY)  # Converte para cinza
+        return img
 
 
+def encontrar_metin(img_tela):
+    """ Procura por Metins na tela e retorna as coordenadas (x, y) se encontrar """
+    melhor_correspondencia = None
+    melhor_posicao = None
+
+    for template_path in metin_templates:
+        template = cv2.imread(template_path, cv2.IMREAD_GRAYSCALE)
+        if template is None:
+            print(f"Erro ao carregar template: {template_path}")
+            continue
+
+        res = cv2.matchTemplate(img_tela, template, cv2.TM_CCOEFF_NORMED)
+        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+
+        if max_val > 0.7:  # Ajusta o threshold conforme necessário
+            print(f"Metin detectada com {max_val * 100:.1f}% de certeza!")
+            if melhor_correspondencia is None or max_val > melhor_correspondencia:
+                melhor_correspondencia = max_val
+                melhor_posicao = max_loc
+
+    if melhor_posicao:
+        x, y = melhor_posicao
+        print(f"Coordenadas da Metin: ({x}, {y})")
+        return x, y
+    else:
+        print("Nenhuma Metin encontrada.")
+        return None
 
 
 def atacar_metin(posicao):
+    """ Move o mouse para a Metin e ataca repetidamente """
     if posicao:
         x, y = posicao
-        print(f"Movendo para a Metin na posição OCR: ({x}, {y})")
-
-        # Move lentamente para garantir precisão no clique
-        pyautogui.moveTo(x, y, duration=0.5)
+        x += 30  # Ajuste para centralizar melhor
+        y += 50  # Ajuste para clicar mais na parte inferior da Metin
+        pyautogui.moveTo(x + GAME_REGION["left"], y + GAME_REGION["top"], duration=0.3)
         time.sleep(0.2)
+        pyautogui.click()
+        print(f"Atacando Metin em ({x}, {y})")
 
-        pyautogui.click()  # Clica na palavra "Metin"
-        print(f"Clicando na Metin em ({x}, {y})")
-
-        # Simula ataques repetidos (pressionando espaço)
-        for _ in range(10):  
-            pyautogui.press("space")  # Ajuste se a tecla de ataque for diferente
+        for _ in range(10):  # Ajuste o número de ataques
+            pyautogui.press("space")
             time.sleep(0.3)
-
-        print("Atacando Metin...")
     else:
         print("Não foi possível atacar nenhuma Metin.")
 
 
-def mover_inteligentemente():
-    # Movimentação aleatória caso não encontre uma Metin
-    movimentos = ['w', 'a', 's', 'd']
-    for mov in movimentos:
-        pyautogui.keyDown(mov)
-        time.sleep(1)
-        pyautogui.keyUp(mov)
-
-
-def seguranca():
-    if random.randint(1, 100) > 95:
-        mainLogger.info("⏸️ Pausa de segurança ativada.")
-        time.sleep(random.uniform(3, 5))
-
-
 def main():
-    time.sleep(2)
+    """ Loop principal do bot """
     while True:
-        posicao_metin = procurar_metins()
-        if posicao_metin:  # Agora posicao_metin é (x, y), não apenas True
+        tela = capturar_tela()
+        posicao_metin = encontrar_metin(tela)
+        if posicao_metin:
             atacar_metin(posicao_metin)
         else:
-            mover_inteligentemente()
-        time.sleep(5)
+            print("Nenhuma Metin visível. Movendo-se...")
+            pyautogui.keyDown("w")
+            time.sleep(1.5)
+            pyautogui.keyUp("w")
+
+        time.sleep(3)  # Tempo entre cada verificação
 
 
 if __name__ == "__main__":
+    print("Bot iniciado! Aguardando...")
     time.sleep(2)
-    mainLogger.info("🚀 Bot iniciado!")
     main()
