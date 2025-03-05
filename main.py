@@ -15,45 +15,41 @@ def procurar_metins():
     tela = pyautogui.screenshot()
     tela = np.array(tela)
 
-    # Definir uma região de interesse (ROI) onde os nomes das Metins costumam aparecer
     altura, largura, _ = tela.shape
-    roi = tela[0:int(altura * 0.5), :]  # Pegamos só a metade superior da tela
+    
+    # Recortar APENAS a parte superior onde o nome da Metin aparece
+    roi = tela[int(altura * 0.2):int(altura * 0.5), :]  # Ajuste conforme necessário
 
     # Converter para escala de cinza
     tela_gray = cv2.cvtColor(roi, cv2.COLOR_RGB2GRAY)
 
-    # Melhorar contraste e nitidez para o OCR
-    tela_gray = cv2.threshold(tela_gray, 120, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-    from pytesseract import image_to_string
-    print(image_to_string(tela_gray))
+    # Aplicar CLAHE para melhorar o contraste sem perder detalhes
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    tela_gray = clahe.apply(tela_gray)
 
-
-    # OCR apenas na área recortada
+    # Tentar OCR novamente com ajuste de idioma
     texto_detectado = pytesseract.image_to_data(tela_gray, output_type=pytesseract.Output.DICT)
 
-    # Ajustes para mover o clique corretamente para a pedra Metin
-    OFFSET_X = 20  # Ajuste para mover mais para a direita
-    OFFSET_Y = 70  # Ajuste para descer mais
+    OFFSET_X = 20
+    OFFSET_Y = 70  
 
     for i, palavra in enumerate(texto_detectado["text"]):
         if "Metin" in palavra:
-            x = texto_detectado["left"][i]  # Coordenada X da palavra "Metin"
-            y = texto_detectado["top"][i]   # Coordenada Y da palavra "Metin"
+            x = texto_detectado["left"][i]  
+            y = texto_detectado["top"][i]   
             largura = texto_detectado["width"][i]
             altura = texto_detectado["height"][i]
 
-            # Como recortamos a parte superior da tela, precisamos ajustar Y de volta para a posição original
-            y += int(altura * 0.5)
-
-            # Calcula o centro do nome "Metin"
-            x_centro = x + largura // 2 + OFFSET_X  # Move um pouco para a direita
-            y_centro = y + altura // 2 + OFFSET_Y   # Move mais para baixo
+            # Ajustar posição do clique
+            x_centro = x + largura // 2 + OFFSET_X
+            y_centro = y + altura // 2 + OFFSET_Y
 
             print(f"Metin detectada! Nova posição ajustada: ({x_centro}, {y_centro})")
             return (x_centro, y_centro)
 
     print("Nenhuma Metin encontrada via OCR.")
     return None
+
 
 
 
