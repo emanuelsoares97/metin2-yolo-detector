@@ -7,27 +7,24 @@ Este é um bot para **detecção automática de Metins** no jogo **Metin2** util
 ## 📌 Estrutura do Projeto
 
 ```
-📂 projeto-metin2bot
-│── 📂 logs  # Logs de análise
-│── 📂 models  # Modelos treinados
-│   ├── best.pt  ✅ Modelo treinado final
-│   ├── yolov8n.pt  ✅ Modelo base inicial
-│── 📂 runs
-│   ├── 📂 detect
-│   │   ├── 📂 predict3   # Resultados de predição
-│   │   ├── 📂 train8    # Último modelo treinado
-│   │   ├── val         # Validação dos modelos
-│── 📂 util  ✅ Scripts auxiliares
-│   ├── __init__.py
-│   ├── convert_xml_to_yolo.py
-│   ├── dataset.py
-│   ├── generate_yaml.py
-│   ├── logger.py
-│   ├── movertxt.py
-│── .gitignore  ✅ Arquivos ignorados pelo Git
+projeto-metin2bot/
+│── classes/
+│   ├── classemetinbot.py
+│── logs/
+│── metin_dataset/  # Base de dados do YOLO (IGNORADO no Git)
+│── metin_images/
+│── models/
+│   ├── best.pt  # Modelo treinado
+│   ├── yolov8n.pt  # Modelo base do YOLO
+│── runs/
+│── util/
+│   ├── logger.py  # Gerenciador de logs
+│── main.py 
+│── requirements.txt
+│── .gitignore
 │── LICENSE
-│── README.md  ✅ Este arquivo
-│── main.py  ✅ Código principal do bot
+│── README.md
+
 ```
 
 ---
