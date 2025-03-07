@@ -7,8 +7,8 @@ dataset_path = "metin_dataset"
 data = {
     "train": f"{dataset_path}/images/train",  
     "val": f"{dataset_path}/images/valid",   
-    "nc": 3,  # Número de classes (ajuste conforme necessário)
-    "names": ["Metin_Sombra", "Metin_Escuridao", "Metin_Ciume"]  # Substitua pelos nomes reais das classes
+    "nc": 1,  # Número de classes (ajuste conforme necessário)
+    "names": ["Metin"]
 }
 
 # Salvar o arquivo

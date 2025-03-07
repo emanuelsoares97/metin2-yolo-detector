@@ -1,5 +1,6 @@
 #ignorar pasta com imagens
 metin_dataset/
+metin_images/
 # Ignorar ambiente virtual e arquivos grandes
 venv/
 *.dll

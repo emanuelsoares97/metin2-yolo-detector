@@ -8,7 +8,7 @@ caminho_logs = os.path.join(caminho_raiz, "logs")  # Criar pasta logs
 os.makedirs(caminho_logs, exist_ok=True)  # Criar diretório se não existir
 
 # Caminho do ficheiro de log
-caminho_log = os.path.join(caminho_logs, "projeto_analise.log")
+caminho_log = os.path.join(caminho_logs, "analise_logs.log")
 
 # Configuração global do logging
 logging.basicConfig(
