@@ -1,91 +1,97 @@
-# 📌 Metin2Bot - Detector de Metins com YOLOv8
+# Metin2 Bot - Detector de Metins com YOLOv8 🚀
 
-Este projeto é um bot para detecção de Metins no jogo Metin2, utilizando **YOLOv8** para identificar pedras Metin no mapa e auxiliar no farm automatizado.
-
----
-## 📁 Estrutura do Projeto
-```
-projeto-metin2bot/
-│── metin_dataset/          # Contém as imagens e anotações do dataset (não subir para o GitHub)
-│   ├── images/             # Pasta com imagens de treino e validação
-│   ├── labels/             # Anotações do YOLO para cada imagem
-│   ├── data.yaml           # Arquivo de configuração do dataset
-│
-│── runs/                   # Resultados dos treinamentos do YOLO (não subir)
-│
-│── scripts/                # Scripts Python para treino, predição e automação do bot
-│   ├── train.py            # Script para treinar o modelo
-│   ├── detect.py           # Script para fazer predições
-│   ├── utils.py            # Funções auxiliares
-│
-│── models/                 # Pesos do modelo treinado (baixar antes de rodar)
-│   ├── best.pt             # Melhor modelo treinado
-│   ├── last.pt             # Último modelo salvo
-│
-│── requirements.txt        # Dependências do projeto
-│── .gitignore              # Arquivos a serem ignorados no Git
-│── README.md               # Documentação do projeto
-│── main.py                 # Arquivo principal que roda o bot
-│── config.yaml             # Configurações gerais do projeto
-```
+Este é um bot para **detecção automática de Metins** no jogo **Metin2** utilizando **YOLOv8** e **OpenCV**.
 
 ---
-## 🔧 **Configuração do Ambiente**
 
-### 1️⃣ **Clonar o repositório**
-```bash
-git clone https://github.com/emanuelsoares97/projeto-metin2bot.git
-cd projeto-metin2bot
+## 📌 Estrutura do Projeto
+
+```
+📂 projeto-metin2bot
+│── 📂 logs  # Logs de análise
+│── 📂 models  # Modelos treinados
+│   ├── best.pt  ✅ Modelo treinado final
+│   ├── yolov8n.pt  ✅ Modelo base inicial
+│── 📂 runs
+│   ├── 📂 detect
+│   │   ├── 📂 predict3   # Resultados de predição
+│   │   ├── 📂 train8    # Último modelo treinado
+│   │   ├── val         # Validação dos modelos
+│── 📂 util  ✅ Scripts auxiliares
+│   ├── __init__.py
+│   ├── convert_xml_to_yolo.py
+│   ├── dataset.py
+│   ├── generate_yaml.py
+│   ├── logger.py
+│   ├── movertxt.py
+│── .gitignore  ✅ Arquivos ignorados pelo Git
+│── LICENSE
+│── README.md  ✅ Este arquivo
+│── main.py  ✅ Código principal do bot
 ```
 
-### 2️⃣ **Criar e ativar o ambiente virtual**
-```bash
+---
+
+## ⚡ Instalação
+
+### **1️⃣ Criar e ativar um ambiente virtual**
+```sh
 python -m venv venv
-# No Windows
-venv\Scripts\activate
-# No Linux/Mac
-source venv/bin/activate
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate  # Windows
 ```
 
-### 3️⃣ **Instalar as dependências**
-```bash
+### **2️⃣ Instalar as dependências**
+```sh
 pip install -r requirements.txt
 ```
 
-### 4️⃣ **Baixar os pesos do modelo**
-Baixe o arquivo `best.pt` do YOLOv8 treinado e coloque na pasta `models/`.
-
-📥 **Baixar modelo:** [Em breve, link aqui]
-
 ---
-## 🚀 **Como Usar**
 
-### 🔍 **Fazer predição em uma imagem**
-```bash
-python scripts/detect.py --model models/best.pt --source caminho/para/imagem.png
+## 🎯 Como Usar o Bot
+
+### **1️⃣ Rodar a detecção ao vivo**
+```sh
+python main.py
 ```
 
-### 🏋️ **Treinar um novo modelo**
-```bash
-python scripts/train.py --epochs 100 --img-size 800
+Isso iniciará a detecção de Metins na tela.
+
+### **2️⃣ Parar o bot**
+Pressione **`Q`** para sair.
+
+---
+
+## 🛠️ Como Treinar um Novo Modelo
+Se quiser treinar um novo modelo com YOLOv8:
+
+```sh
+yolo task=detect mode=train model=yolov8n.pt data=metin_dataset/data.yaml epochs=100 imgsz=800
+```
+
+Após o treinamento, o melhor modelo será salvo em:
+```
+models/best.pt
 ```
 
 ---
-## 🛠 **Customização**
-- **Ajustar limiar de confiança**: Modifique `conf=0.2` no script de predição para calibrar a detecção.
-- **Alterar dataset**: Adicione mais imagens em `metin_dataset/` e ajuste `data.yaml`.
+
+## 📌 Melhorias Futuras
+- ✅ Melhorar a precisão do modelo
+- ✅ Automatizar a movimentação do personagem
+- ✅ Criar um sistema de auto-ataque
 
 ---
-## 📌 **Contribuição**
-Sinta-se à vontade para abrir **issues** ou enviar **pull requests** para melhorias!
+
+## 📜 Licença
+Este projeto está sob a licença MIT. Sinta-se à vontade para usar e modificar!
 
 ---
-## ⚠️ **Atenção**
-Este projeto é um estudo de automação e detecção de objetos, sem fins lucrativos. Use com responsabilidade.
+
+## 📬 Contato
+Caso tenha dúvidas ou sugestões, entre em contato: **emanuelsoares97** no GitHub.
 
 ---
-## 📞 **Contato**
-📧 Email: _[seuemail@exemplo.com]_  
-💬 Discord: _[SeuUsuário#1234]_
 
+🚀 **Boas caçadas de Metins!** 🎯
 
