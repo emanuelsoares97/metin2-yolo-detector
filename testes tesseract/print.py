@@ -12,7 +12,7 @@ def capture_screenshots(interval, duration, save_path):
     save_path (str): Caminho onde os screenshots serão salvos.
     """
     start_time = time.time()
-    counter = 1
+    counter = 374
     
     # Cria o diretório de destino se não existir
     if not os.path.exists(save_path):
@@ -33,7 +33,7 @@ def capture_screenshots(interval, duration, save_path):
 # Configuração do usuário
 intervalo = 5  # segundos entre cada screenshot
 duracao = 300  # segundos totais para capturar (5 minutos)
-caminho_para_salvar = 'caminho/para/sua/pasta/de/screenshots'
+caminho_para_salvar = 'C:/Users/tutas/Documents/Projetos GitHUB/projeto-metin2bot/metin_images'
 
 # Chamada da função
 capture_screenshots(intervalo, duracao, caminho_para_salvar)

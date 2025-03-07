@@ -1,0 +1,5 @@
+names:
+- Metin
+nc: 1
+train: "C:/Users/tutas/Documents/Projetos GitHUB/projeto-metin2bot/metin_dataset/images/train"
+val: "C:/Users/tutas/Documents/Projetos GitHUB/projeto-metin2bot/metin_dataset/images/valid"
