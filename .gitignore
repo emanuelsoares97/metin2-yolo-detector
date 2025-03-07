@@ -1,1 +1,6 @@
-/venv
+#ignorar pasta com imagens
+metin_dataset/
+# Ignorar ambiente virtual e arquivos grandes
+venv/
+*.dll
+*.lib
