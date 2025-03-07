@@ -1,76 +1,91 @@
-# 📌 Metin2 Bot - Automacao para Deteccao de Metins com Machine Learning
+# 📌 Metin2Bot - Detector de Metins com YOLOv8
 
-## 📖 **Descricao do Projeto**
-Este projeto tem como objetivo automatizar a **detecção das Metins** no jogo **Metin2**. Utilizando **Machine Learning** com a arquitetura **YOLO (You Only Look Once)**, o bot consegue identificar as Metins na tela de forma precisa e eficiente.
-
-Inicialmente, testamos abordagens como **cor, OCR (Reconhecimento de Texto) e Template Matching**, mas essas apresentaram limitações, como:
-- **Sensibilidade a mudanças de iluminacao**
-- **Detecção falha em certos angulos**
-- **Erros ao capturar Metins em diferentes mapas**
-
-Por isso, decidimos treinar um modelo **YOLOv8** especializado para reconhecer as Metins de forma robusta e sem necessidade de ajustes manuais constantes.
+Este projeto é um bot para detecção de Metins no jogo Metin2, utilizando **YOLOv8** para identificar pedras Metin no mapa e auxiliar no farm automatizado.
 
 ---
-
-## 🛠️ **Etapas do Desenvolvimento**
-
-### 🔹 1. **Tentativas Iniciais**
-- **Template Matching (OpenCV)**: Comparacao com imagens de referencia.
-- **OCR (pytesseract)**: Identificacao da palavra "Metin" na tela.
-- **Filtros de Imagem**: Aplicacao de filtros para melhorar a deteccao.
-- **Problema**: Essas abordagens falharam devido a iluminacao, posicoes variaveis e diferentes tipos de Metins no jogo.
-
-### 🔹 2. **Implementacao do Machine Learning com YOLO**
-- **Coleta e rotulacao de imagens**: Capturamos e anotamos manualmente as Metins.
-- **Treinamento do modelo YOLOv8**:
-  - Ajustamos para detectar **todas as Metins** independentemente da cor ou mapa.
-  - Reduzimos o modelo para identificar apenas **uma classe genérica de Metins**, aumentando a precisao.
-- **Testes e ajustes**:
-  - Corrigimos erros de detecção incorreta.
-  - Aumentamos o numero de imagens para melhorar o aprendizado.
-  - Refinamos a precisao do modelo com mais epocas de treino.
-
----
-
-## 🔍 **Status Atual do Projeto**
-Atualmente, o bot já consegue:
-✅ **Identificar Metins com alta precisao**
-✅ **Independer da cor ou tipo da Metin**
-✅ **Ser treinado e melhorado facilmente**
-✅ **Executar o reconhecimento em tempo real**
-
-Estamos agora ajustando pequenos detalhes e otimizando o modelo para melhor desempenho.
+## 📁 Estrutura do Projeto
+```
+projeto-metin2bot/
+│── metin_dataset/          # Contém as imagens e anotações do dataset (não subir para o GitHub)
+│   ├── images/             # Pasta com imagens de treino e validação
+│   ├── labels/             # Anotações do YOLO para cada imagem
+│   ├── data.yaml           # Arquivo de configuração do dataset
+│
+│── runs/                   # Resultados dos treinamentos do YOLO (não subir)
+│
+│── scripts/                # Scripts Python para treino, predição e automação do bot
+│   ├── train.py            # Script para treinar o modelo
+│   ├── detect.py           # Script para fazer predições
+│   ├── utils.py            # Funções auxiliares
+│
+│── models/                 # Pesos do modelo treinado (baixar antes de rodar)
+│   ├── best.pt             # Melhor modelo treinado
+│   ├── last.pt             # Último modelo salvo
+│
+│── requirements.txt        # Dependências do projeto
+│── .gitignore              # Arquivos a serem ignorados no Git
+│── README.md               # Documentação do projeto
+│── main.py                 # Arquivo principal que roda o bot
+│── config.yaml             # Configurações gerais do projeto
+```
 
 ---
+## 🔧 **Configuração do Ambiente**
 
-## 🚀 **Como Executar o Projeto**
-1. **Instale as dependencias**:
-   ```sh
-   pip install -r requirements.txt
-   ```
-2. **Ative o ambiente virtual**:
-   ```sh
-   source venv/bin/activate   # Linux/macOS
-   .\venv\Scripts\activate  # Windows
-   ```
-3. **Execute o bot**:
-   ```sh
-   python main.py
-   ```
+### 1️⃣ **Clonar o repositório**
+```bash
+git clone https://github.com/emanuelsoares97/projeto-metin2bot.git
+cd projeto-metin2bot
+```
+
+### 2️⃣ **Criar e ativar o ambiente virtual**
+```bash
+python -m venv venv
+# No Windows
+venv\Scripts\activate
+# No Linux/Mac
+source venv/bin/activate
+```
+
+### 3️⃣ **Instalar as dependências**
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ **Baixar os pesos do modelo**
+Baixe o arquivo `best.pt` do YOLOv8 treinado e coloque na pasta `models/`.
+
+📥 **Baixar modelo:** [Em breve, link aqui]
 
 ---
+## 🚀 **Como Usar**
 
-## 🔧 **Tecnologias Utilizadas**
-- **Python**
-- **YOLOv8 (Ultralytics)**
-- **OpenCV** (processamento de imagem)
-- **mss** (captura de tela)
-- **PyAutoGUI** (automacao do mouse e teclado)
+### 🔍 **Fazer predição em uma imagem**
+```bash
+python scripts/detect.py --model models/best.pt --source caminho/para/imagem.png
+```
+
+### 🏋️ **Treinar um novo modelo**
+```bash
+python scripts/train.py --epochs 100 --img-size 800
+```
 
 ---
+## 🛠 **Customização**
+- **Ajustar limiar de confiança**: Modifique `conf=0.2` no script de predição para calibrar a detecção.
+- **Alterar dataset**: Adicione mais imagens em `metin_dataset/` e ajuste `data.yaml`.
 
-## 📌 **Conclusao**
-O projeto evoluiu significativamente desde as abordagens iniciais até a implementação do **YOLOv8** para reconhecimento de Metins. Agora, o bot é muito mais preciso e eficiente.
+---
+## 📌 **Contribuição**
+Sinta-se à vontade para abrir **issues** ou enviar **pull requests** para melhorias!
 
-📢 **Proximos passos: Melhorar o desempenho e testar em diferentes ambientes do jogo!** 🚀
+---
+## ⚠️ **Atenção**
+Este projeto é um estudo de automação e detecção de objetos, sem fins lucrativos. Use com responsabilidade.
+
+---
+## 📞 **Contato**
+📧 Email: _[seuemail@exemplo.com]_  
+💬 Discord: _[SeuUsuário#1234]_
+
 
