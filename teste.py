@@ -5,7 +5,7 @@ def clicar_mouse(x, y):
     ctypes.windll.user32.mouse_event(2, 0, 0, 0, 0)  # Pressiona botão esquerdo
     ctypes.windll.user32.mouse_event(4, 0, 0, 0, 0)  # Solta botão esquerdo
 
-sleep(1)
+sleep(2)
 clicar_mouse(1321,375)
 
 
