@@ -2,6 +2,10 @@ import os
 import shutil
 import random
 import yaml
+from util.logger import get_logger
+
+logger=get_logger(__name__)
+
 
 # Definir caminhos
 BASE_DIR = "metin_dataset"
@@ -12,7 +16,7 @@ LABELS_DIR = "metin_images"
 def criar_pastas():
     for folder in ["images/train", "images/valid", "labels/train", "labels/valid"]:
         os.makedirs(os.path.join(BASE_DIR, folder), exist_ok=True)
-    print("✔ Pastas criadas com sucesso!")
+    logger.info("Pastas criadas com sucesso!")
 
 # Coletar imagens e anotações
 def obter_arquivos():
@@ -32,7 +36,7 @@ def mover_arquivos(arquivos, tipo):
         shutil.move(os.path.join(IMAGES_DIR, img), os.path.join(BASE_DIR, f"images/{tipo}", img))
         if os.path.exists(os.path.join(LABELS_DIR, txt)):
             shutil.move(os.path.join(LABELS_DIR, txt), os.path.join(BASE_DIR, f"labels/{tipo}", txt))
-    print(f"✔ {tipo.capitalize()} pronto! {len(arquivos)} arquivos movidos.")
+    logger.info(f"{tipo.capitalize()} pronto! {len(arquivos)} arquivos movidos.")
 
 # Criar data.yaml
 def criar_yaml(classes):
@@ -44,7 +48,7 @@ def criar_yaml(classes):
     }
     with open(os.path.join(BASE_DIR, "data.yaml"), "w") as f:
         yaml.dump(data, f, default_flow_style=False)
-    print("✔ data.yaml criado com sucesso!")
+    logger.info("data.yaml criado com sucesso!")
 
 # Carregar classes do arquivo classes.txt
 def carregar_classes():
@@ -53,7 +57,7 @@ def carregar_classes():
         with open(classes_path, "r") as f:
             return [line.strip() for line in f.readlines()]
     else:
-        print("❌ ERRO: Arquivo classes.txt não encontrado!")
+        logger.error("ERRO: Arquivo classes.txt não encontrado!")
         return []
 
 if __name__ == "__main__":
@@ -65,4 +69,4 @@ if __name__ == "__main__":
     classes = carregar_classes()
     if classes:
         criar_yaml(classes)
-    print("✔ Organização do dataset concluída!")
+    logger.info("Organização do dataset concluída!")
