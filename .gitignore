@@ -1,6 +1,7 @@
 #ignorar pasta com imagens
 metin_dataset/
 metin_images/
+__pycache__
 # Ignorar ambiente virtual e arquivos grandes
 venv/
 *.dll
