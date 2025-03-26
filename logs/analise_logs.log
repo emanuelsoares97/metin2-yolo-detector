@@ -4223,3 +4223,25 @@
 2025-03-07 20:37:55,104 | INFO | MainLogger | Atacando Metin em (1081, 280)
 2025-03-07 20:37:57,104 | INFO | MainLogger | Aguardando destruição (0s)...
 2025-03-07 20:37:59,105 | INFO | MainLogger | Aguardando destruição (2s)...
+2025-03-26 11:43:45,171 | INFO | MainLogger | Bot iniciado
+2025-03-26 11:43:45,257 | INFO | MainLogger | Bot iniciado com modelo: models/best.pt
+2025-03-26 11:43:45,257 | INFO | MainLogger | Bot em execução...
+2025-03-26 11:43:47,474 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:47,755 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:47,919 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:48,084 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:48,250 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:48,403 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:48,579 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:48,727 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:48,872 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:49,028 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:49,173 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:49,325 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:49,474 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:49,624 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:49,775 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:52,910 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:53,062 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:53,208 | INFO | MainLogger | Detecção realizada com sucesso.
+2025-03-26 11:43:53,250 | INFO | MainLogger | Bot encerrado.
