@@ -67,9 +67,6 @@ O modelo YOLOv8 foi treinado com 100 epochs e atingiu ótimos resultados:
 - `Precision ≈ 0.85`
 - `Recall ≈ 0.85`
 
-Gráfico gerado após o treino:
-
-![Resultados do treino](results.png)
 
 ---
 
