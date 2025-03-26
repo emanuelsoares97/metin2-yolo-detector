@@ -1,94 +1,124 @@
-# Metin2 Bot - Detector de Metins com YOLOv8 🚀
+# Metin2 Bot - Detector de Metins com YOLOv8 + OpenCV
 
-Este é um bot para **detecção automática de Metins** no jogo **Metin2** utilizando **YOLOv8** e **OpenCV**.
+Este é um bot para **detecção automática de pedras Metin** no jogo **Metin2**, utilizando **YOLOv8** e **OpenCV**.
+
+Embora o sistema de clique automático **não tenha sido implementado** (por depender de Arduino ou outras soluções físicas), a **detecção em tempo real está totalmente funcional**, com ótimos resultados de precisão.
 
 ---
 
-## 📌 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 projeto-metin2bot/
 │── classes/
 │   ├── classemetinbot.py
 │── logs/
-│── metin_dataset/  # Base de dados do YOLO (IGNORADO no Git)
-│── metin_images/
 │── models/
-│   ├── best.pt  # Modelo treinado
-│   ├── yolov8n.pt  # Modelo base do YOLO
-│── runs/
-│── util/
-│   ├── logger.py  # Gerenciador de logs
-│── main.py 
+│   ├── best.pt           # Modelo treinado
+│   ├── yolov8n.pt        # Modelo base do YOLO
+│── runs/                 # Resultados do treino
+│── util/ # funçoes auxiliares
+│── main.py               # Script principal
 │── requirements.txt
 │── .gitignore
 │── LICENSE
 │── README.md
-
 ```
 
 ---
 
-## ⚡ Instalação
+## Instalação
 
-### **1️⃣ Criar e ativar um ambiente virtual**
-```sh
+### **Criar e ativar um ambiente virtual**
+```bash
 python -m venv venv
-source venv/bin/activate  # Linux/Mac
-venv\Scripts\activate  # Windows
+# Linux/Mac:
+source venv/bin/activate
+# Windows:
+venv\Scripts\activate
 ```
 
-### **2️⃣ Instalar as dependências**
-```sh
+### **Instalar as dependências**
+```bash
 pip install -r requirements.txt
 ```
 
 ---
 
-## 🎯 Como Usar o Bot
+## Como Usar o Bot
 
-### **1️⃣ Rodar a detecção ao vivo**
-```sh
+### **Rodar a detecção**
+```bash
 python main.py
 ```
 
-Isso iniciará a detecção de Metins na tela.
+O script irá abrir a tela de jogo e começar a detectar as pedras Metin.
 
-### **2️⃣ Parar o bot**
+### **2Parar o bot**
 Pressione **`Q`** para sair.
 
 ---
 
-## 🛠️ Como Treinar um Novo Modelo
-Se quiser treinar um novo modelo com YOLOv8:
+## Resultados do Modelo
 
-```sh
+O modelo YOLOv8 foi treinado com 100 epochs e atingiu ótimos resultados:
+
+- `mAP50 ≈ 0.9` (alta precisão)
+- `Precision ≈ 0.85`
+- `Recall ≈ 0.85`
+
+Gráfico gerado após o treino:
+
+![Resultados do treino](results.png)
+
+---
+
+## Treinar um Novo Modelo
+
+Se quiser treinar seu próprio modelo usando suas imagens:
+
+```bash
 yolo task=detect mode=train model=yolov8n.pt data=metin_dataset/data.yaml epochs=100 imgsz=800
 ```
 
-Após o treinamento, o melhor modelo será salvo em:
+O melhor modelo será guardado em:
 ```
 models/best.pt
 ```
 
 ---
 
-## 📌 Melhorias Futuras
-- ✅ Melhorar a precisão do modelo
-- ✅ Automatizar a movimentação do personagem
-- ✅ Criar um sistema de auto-ataque
+## Tecnologias Utilizadas
+
+- **YOLOv8 (Ultralytics)** — detecção
+- **OpenCV** — captura e manipulação da tela
+- **LabelImg** — ferramenta usada para anotar as imagens (bounding boxes)
+- **PyTorch** — backend do YOLO
+- **PyAutoGUI** *(testado)* — tentativa de automação dos cliques (sem sucesso no Metin2)
+- **Pynput** *(testado)* — tentativa de controle do teclado/mouse
+- **Logger customizado**
 
 ---
 
-## 📜 Licença
-Este projeto está sob a licença MIT. Sinta-se à vontade para usar e modificar!
+## Melhorias Futuras
+
+- Adicionar movimento automático do personagem
+- Implementar clique automático com Arduino
 
 ---
 
-## 📬 Contato
-Caso tenha dúvidas ou sugestões, entre em contato: **emanuelsoares97** no GitHub.
+## Licença
+
+Este projeto está sob a **Licença MIT**. Sinta-se à vontade para usar, estudar e evoluir o bot!
 
 ---
 
-🚀 **Boas caçadas de Metins!** 🎯
+## Contato
 
+Dúvidas ou sugestões?  
+Entre em contato comigo no GitHub: [emanuelsoares97](https://github.com/emanuelsoares97)
+
+---
+
+**Boas caçadas de Metins!**  
+**Aprendizado aplicado à prática com visão computacional!**
