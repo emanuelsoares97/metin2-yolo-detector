@@ -18,7 +18,7 @@ valid_images = set(os.listdir(VALID_IMAGES_DIR))
 # Mover os arquivos de anotação correspondentes
 for file in os.listdir(IMAGES_DIR):
     if file.endswith(".txt"):
-        image_file = file.replace(".txt", ".png")  # Ajuste se suas imagens forem .jpg
+        image_file = file.replace(".txt", ".png")
         if image_file in train_images:
             shutil.move(os.path.join(IMAGES_DIR, file), os.path.join(LABELS_DIR, "train", file))
         elif image_file in valid_images:
