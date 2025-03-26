@@ -1,4 +1,6 @@
-# Metin2 Bot - Detector de Metins com YOLOv8 + OpenCV
+# metin2-yolo-detector
+
+Detector de Metins com YOLOv8 para automação no jogo Metin2.
 
 Este é um bot para **detecção automática de pedras Metin** no jogo **Metin2**, utilizando **YOLOv8** e **OpenCV**.
 
