@@ -6,7 +6,7 @@ import time
 
 from util.logger import get_logger
 
-MetinBotLogger = get_logger("MainLogger")
+logger = get_logger(__name__)
 
 class MetinBot:
     def __init__(self, model_path="models/best.pt"):
@@ -15,7 +15,7 @@ class MetinBot:
         """
         self.model = YOLO(model_path)
         self.capture_region = (0, 0, *pyautogui.size())  # Captura tela inteira
-        MetinBotLogger.info(f"Bot iniciado com modelo: {model_path}")
+        logger.info(f"Bot iniciado com modelo: {model_path}")
 
     def capturar_tela(self):
         """
@@ -27,7 +27,7 @@ class MetinBot:
             frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)  # Converter para OpenCV
             return frame
         except Exception as e:
-            MetinBotLogger.error(f"Erro ao capturar tela: {e}")
+            logger.error(f"Erro ao capturar tela: {e}")
             return None
 
     def detectar_metins(self, frame):
@@ -36,10 +36,10 @@ class MetinBot:
         """
         try:
             results = self.model(frame)
-            MetinBotLogger.info(f"Detecção realizada com sucesso.")
+            logger.info(f"Detecção realizada com sucesso.")
             return results
         except Exception as e:
-            MetinBotLogger.error(f"Erro na detecção: {e}")
+            logger.error(f"Erro na detecção: {e}")
             return []
 
     def encontrar_metin_mais_proxima(self, results):
@@ -70,13 +70,13 @@ class MetinBot:
             pyautogui.moveTo(metin_pos[0], metin_pos[1], duration=0.3)  # Movimento rápido
             time.sleep(2)
             pyautogui.click()  # Clica para atacar
-            MetinBotLogger.info(f"Atacando Metin em {metin_pos}")
+            logger.info(f"Atacando Metin em {metin_pos}")
 
             # Reduzindo tempo de espera para evitar travamentos
-            tempo_maximo = 20  # Tempo máximo esperando ataque (ajustável)
+            tempo_maximo = 20  # Tempo máximo ataque
             for _ in range(tempo_maximo // 2):  # Loop de 2s até 20s no máximo
                 time.sleep(2)
-                MetinBotLogger.info(f"Aguardando destruição ({_ * 2}s)...")
+                logger.info(f"Aguardando destruição ({_ * 2}s)...")
 
     def pegar_drops(self):
         """
@@ -84,26 +84,26 @@ class MetinBot:
         """
         time.sleep(1.5)  # Pequeno delay antes da coleta
         pyautogui.press("`")  # Pressiona a tecla de coleta (ao lado do 1)
-        MetinBotLogger.info("Coletando drops...")
+        logger.info("Recolher drops...")
         time.sleep(1)  # Pequena espera para garantir a coleta
 
     def iniciar(self):
         """
         Inicia o loop de captura, detecção, ataque e coleta.
         """
-        MetinBotLogger.info("Bot em execução...")
+        logger.info("Bot em execução...")
 
         while True:
             frame = self.capturar_tela()
             if frame is None:
-                MetinBotLogger.warning("Falha ao capturar tela. Pulando iteração...")
+                logger.warning("Falha ao capturar tela..")
                 continue
 
             results = self.detectar_metins(frame)
             metin_pos = self.encontrar_metin_mais_proxima(results)  # Apenas pega a posição da mais próxima
 
             if metin_pos:
-                MetinBotLogger.info(f"Metin detectada na posição {metin_pos}, atacando...")
+                logger.info(f"Metin detectada na posição {metin_pos}, atacar...")
                 self.atacar_metin(metin_pos)
                 self.pegar_drops()
 
@@ -115,4 +115,4 @@ class MetinBot:
                 break
 
         cv2.destroyAllWindows()
-        MetinBotLogger.info("Bot encerrado.")
+        logger.info("Bot encerrado.")
