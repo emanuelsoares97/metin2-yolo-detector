@@ -1,10 +1,10 @@
 from classes.classmetinbot import MetinBot
 from util.logger import get_logger
 
-MainLogger= get_logger("MainLogger")
+logger= get_logger(__name__)
 
 
 if __name__ == "__main__":
-    MainLogger.info("Bot iniciado")
+    logger.info("Bot iniciado")
     bot = MetinBot()
     bot.iniciar()
