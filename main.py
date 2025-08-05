@@ -1,4 +1,4 @@
-from classes.classmetinbot import MetinBot
+from modelbot.classmetinbot import MetinBot
 from util.logger import get_logger
 
 logger= get_logger(__name__)

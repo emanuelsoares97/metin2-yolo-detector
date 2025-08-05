@@ -4,7 +4,8 @@ from util.logger import get_logger
 logger= get_logger(__name__)
 
 # Caminho da pasta onde os arquivos estão
-pasta = "C:/Users/tutas/Documents/Projetos GitHUB/projeto-metin2bot/metin_images"  # Atualize com o caminho correto
+pasta = "metin2_images"
+pasta = os.path.join(pasta, "metin2_images")
 
 # Percorre todos os arquivos na pasta
 for arquivo in os.listdir(pasta):

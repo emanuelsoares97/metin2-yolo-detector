@@ -23,5 +23,3 @@ for file in os.listdir(IMAGES_DIR):
             shutil.move(os.path.join(IMAGES_DIR, file), os.path.join(LABELS_DIR, "train", file))
         elif image_file in valid_images:
             shutil.move(os.path.join(IMAGES_DIR, file), os.path.join(LABELS_DIR, "valid", file))
-
-print("✔ Arquivos .txt movidos para as pastas corretas!")

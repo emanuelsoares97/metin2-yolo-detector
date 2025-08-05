@@ -12,6 +12,8 @@ class MetinBot:
     def __init__(self, model_path="models/best.pt"):
         """
         Inicializa o bot carregando o modelo treinado.
+        :param model_path: Caminho para o modelo YOLO treinado.
+        Utiliza o modelo YOLO para detecção de Metins.
         """
         self.model = YOLO(model_path)
         self.capture_region = (0, 0, *pyautogui.size())  # Captura tela inteira
@@ -20,6 +22,8 @@ class MetinBot:
     def capturar_tela(self):
         """
         Captura a tela e converte para formato OpenCV.
+        Utiliza a biblioteca pyautogui para captura de tela.
+        Retorna um frame da tela.
         """
         try:
             screenshot = pyautogui.screenshot(region=self.capture_region)
@@ -33,6 +37,8 @@ class MetinBot:
     def detectar_metins(self, frame):
         """
         Realiza a detecção de Metins na imagem capturada.
+        Utiliza o modelo YOLO para identificar as Metins.
+        Retorna uma lista de resultados de detecção.
         """
         try:
             results = self.model(frame)
@@ -45,6 +51,9 @@ class MetinBot:
     def encontrar_metin_mais_proxima(self, results):
         """
         Encontra a Metin mais próxima para atacar.
+        Se houver múltiplas Metins, escolhe a mais próxima do centro da tela.
+        :param results: Resultados da detecção de Metins.
+        Retorna as coordenadas (x, y) da Metin mais próxima ou None se não houver Metins detectadas.
         """
         metins = []
 
@@ -64,7 +73,9 @@ class MetinBot:
 
     def atacar_metin(self, metin_pos):
         """
-        Move o mouse até a Metin e clica para atacar.
+        Move o rato até a Metin e clica para atacar.
+        :param metin_pos: Posição (x, y) da Metin a ser atacada.
+        Utiliza pyautogui para mover o mouse e clicar.
         """
         if metin_pos:
             pyautogui.moveTo(metin_pos[0], metin_pos[1], duration=0.3)  # Movimento rápido
@@ -81,6 +92,8 @@ class MetinBot:
     def pegar_drops(self):
         """
         Pressiona a tecla de coletar os drops.
+        Utiliza pyautogui para pressionar a tecla de coleta.
+        A tecla de coleta é geralmente a tecla ao lado do número 1 no teclado.
         """
         time.sleep(1.5)  # Pequeno delay antes da coleta
         pyautogui.press("`")  # Pressiona a tecla de coleta (ao lado do 1)
@@ -90,6 +103,8 @@ class MetinBot:
     def iniciar(self):
         """
         Inicia o loop de captura, detecção, ataque e coleta.
+        Captura a tela, detecta Metins, ataca a mais próxima e coleta os drops.
+        O loop continua até que o usuário pressione "q" para sair.
         """
         logger.info("Bot em execução...")
 
