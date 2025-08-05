@@ -63,25 +63,26 @@ Pressione **`Q`** para sair.
 
 ## Resultados do Modelo
 
-O modelo YOLOv8 foi treinado com 100 epochs e atingiu ótimos resultados:
+O modelo YOLOv8 foi treinado por 100 épocas com os seguintes resultados finais:
 
-- `mAP50 ≈ 0.9` (alta precisão)
-- `Precision ≈ 0.85`
-- `Recall ≈ 0.85`
+- **mAP50 ≈ 0.86** (significa que o modelo tem ótima eficiência geral na detecção de metins, combinando precisão e recall)
+- **Precision ≈ 0.95** (significa que quando identifica uma metin 95% das vezes está correto)
+- **Recall ≈ 0.77** (significa que encontra 77% das metins)
+
 
 
 ---
 
 ## Treinar um Novo Modelo
 
-Se quiser treinar seu próprio modelo usando suas imagens:
+Se quiseres treinar o teu proprio modelo:
 
 ```bash
 yolo task=detect mode=train model=yolov8n.pt data=metin_dataset/data.yaml epochs=100 imgsz=800
 ```
 
 O melhor modelo será guardado em:
-```
+
 models/best.pt
 ```
 
@@ -94,7 +95,7 @@ models/best.pt
 - **LabelImg** — ferramenta usada para anotar as imagens (bounding boxes)
 - **PyTorch** — backend do YOLO
 - **PyAutoGUI** *(testado)* — tentativa de automação dos cliques (sem sucesso no Metin2)
-- **Pynput** *(testado)* — tentativa de controle do teclado/mouse
+- **Pynput** *(testado)* — tentativa de controlar teclado/mouse (sem sucesso no Metin2)
 - **Logger customizado**
 
 ---
@@ -116,8 +117,3 @@ Este projeto está sob a **Licença MIT**. Sinta-se à vontade para usar, estuda
 
 Dúvidas ou sugestões?  
 Entre em contato comigo no GitHub: [emanuelsoares97](https://github.com/emanuelsoares97)
-
----
-
-**Boas caçadas de Metins!**  
-**Aprendizado aplicado à prática com visão computacional!**
